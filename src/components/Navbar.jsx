@@ -1,13 +1,16 @@
 import {
   AppBar,
+  Avatar,
   Badge,
   InputBase,
+  Menu,
+  MenuItem,
   styled,
   Toolbar,
   Typography,
 } from "@mui/material";
-import { Coffee, Mail } from "@mui/icons-material";
-import React from "react";
+import { Coffee, Mail, Notifications } from "@mui/icons-material";
+import React, { useState } from "react";
 import { Box } from "@mui/system";
 
 const StyledToolbar = styled(Toolbar)({
@@ -22,9 +25,26 @@ const Search = styled("div")(({ theme }) => ({
   width: "40%",
 }));
 
-const Icons = styled(Box)(({ theme }) => ({}));
+const Icons = styled(Box)(({ theme }) => ({
+  display: "none",
+  gap: "20px",
+  alignItems: "center",
+  [theme.breakpoints.up("sm")]: {
+    display: "flex",
+  },
+}));
+
+const UserBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  gap: "10px",
+  alignItems: "center",
+  [theme.breakpoints.up("sm")]: {
+    display: "none",
+  },
+}));
 
 const Navbar = () => {
+  const [open, setOpen] = useState(false);
   return (
     <AppBar position="sticky">
       <StyledToolbar>
@@ -39,8 +59,41 @@ const Navbar = () => {
           <Badge badgeContent={4} color="error">
             <Mail />
           </Badge>
+          <Badge badgeContent={4} color="error">
+            <Notifications />
+          </Badge>
+          <Avatar
+            sx={{ width: 30, height: 30 }}
+            src="https://source.unsplash.com/random/?human"
+            onClick={(e) => setOpen(true)}
+          />
         </Icons>
+        <UserBox onClick={(e) => setOpen(true)}>
+          <Avatar
+            sx={{ width: 30, height: 30 }}
+            src="https://source.unsplash.com/random/?human"
+          />
+          <Typography variant="span">john</Typography>
+        </UserBox>
       </StyledToolbar>
+      <Menu
+        id="demo-positioned-menu"
+        aria-labelledby="demo-positioned-button"
+        open={open}
+        onClose={(e) => setOpen(false)}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        <MenuItem>Profile</MenuItem>
+        <MenuItem>My account</MenuItem>
+        <MenuItem>Logout</MenuItem>
+      </Menu>
     </AppBar>
   );
 };
